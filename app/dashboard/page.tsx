@@ -108,13 +108,14 @@ export default function Dashboard() {
           if (Number(aId) > 0) {
             const agent = await client.readContract({ address: CONTRACTS.AgentIdentity as `0x${string}`, abi: AGENT_IDENTITY_ABI, functionName: "agents", args: [aId] }) as unknown as any;
             const rate = await client.readContract({ address: CONTRACTS.AgentIdentity as `0x${string}`, abi: AGENT_IDENTITY_ABI, functionName: "getSuccessRate", args: [aId] }) as bigint;
+            const a = agent as any[];
             setAgentData({
-              id: Number(agent.id),
-              name: agent.name,
-              reputationScore: Number(agent.reputationScore),
-              totalMissions: Number(agent.totalMissions),
+              id: Number(a[0]),
+              name: a[2],
+              reputationScore: Number(a[5]),
+              totalMissions: Number(a[6]),
               successRate: Number(rate),
-              status: Number(agent.status) === 1 ? "Active" : "Suspended",
+              status: Number(a[9]) === 1 ? "Active" : "Suspended",
             });
           }
         } catch {}
